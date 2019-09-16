@@ -1,0 +1,115 @@
+add_executable(darkplaces-sdl)
+target_link_libraries(darkplaces-sdl SDL2-static)
+
+set(ENGINE_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_sources(darkplaces-sdl
+	PUBLIC
+	${ENGINE_ROOT}/builddate.c 
+	${ENGINE_ROOT}/bih.c 
+	${ENGINE_ROOT}/cap_avi.c 
+	${ENGINE_ROOT}/cap_ogg.c 
+	${ENGINE_ROOT}/cd_shared.c 
+	${ENGINE_ROOT}/cl_collision.c 
+	${ENGINE_ROOT}/cl_demo.c 
+	${ENGINE_ROOT}/cl_input.c 
+	${ENGINE_ROOT}/cl_main.c 
+	${ENGINE_ROOT}/cl_parse.c 
+	${ENGINE_ROOT}/cl_particles.c 
+	${ENGINE_ROOT}/cl_screen.c 
+	${ENGINE_ROOT}/cl_video.c 
+	${ENGINE_ROOT}/clvm_cmds.c 
+	${ENGINE_ROOT}/cmd.c 
+	${ENGINE_ROOT}/collision.c 
+	${ENGINE_ROOT}/common.c 
+	${ENGINE_ROOT}/console.c 
+	${ENGINE_ROOT}/crypto.c 
+	${ENGINE_ROOT}/csprogs.c 
+	${ENGINE_ROOT}/curves.c 
+	${ENGINE_ROOT}/cvar.c 
+	${ENGINE_ROOT}/dpvsimpledecode.c 
+	${ENGINE_ROOT}/filematch.c 
+	${ENGINE_ROOT}/fractalnoise.c 
+	${ENGINE_ROOT}/fs.c 
+	${ENGINE_ROOT}/ft2.c 
+	${ENGINE_ROOT}/gl_backend.c 
+	${ENGINE_ROOT}/gl_draw.c 
+	${ENGINE_ROOT}/gl_rmain.c 
+	${ENGINE_ROOT}/gl_rsurf.c 
+	${ENGINE_ROOT}/gl_textures.c 
+	${ENGINE_ROOT}/hmac.c 
+	${ENGINE_ROOT}/host_cmd.c 
+	${ENGINE_ROOT}/host.c 
+	${ENGINE_ROOT}/image_png.c 
+	${ENGINE_ROOT}/image.c 
+	${ENGINE_ROOT}/jpeg.c 
+	${ENGINE_ROOT}/keys.c 
+	${ENGINE_ROOT}/lhnet.c 
+	${ENGINE_ROOT}/libcurl.c 
+	${ENGINE_ROOT}/mathlib.c 
+	${ENGINE_ROOT}/matrixlib.c 
+	${ENGINE_ROOT}/mdfour.c 
+	${ENGINE_ROOT}/menu.c 
+	${ENGINE_ROOT}/meshqueue.c 
+	${ENGINE_ROOT}/mod_skeletal_animatevertices_generic.c 
+	${ENGINE_ROOT}/mod_skeletal_animatevertices_sse.c
+	${ENGINE_ROOT}/model_alias.c 
+	${ENGINE_ROOT}/model_brush.c 
+	${ENGINE_ROOT}/model_shared.c 
+	${ENGINE_ROOT}/model_sprite.c 
+	${ENGINE_ROOT}/mvm_cmds.c 
+	${ENGINE_ROOT}/netconn.c 
+	${ENGINE_ROOT}/palette.c 
+	${ENGINE_ROOT}/polygon.c 
+	${ENGINE_ROOT}/portals.c 
+	${ENGINE_ROOT}/protocol.c 
+	${ENGINE_ROOT}/prvm_cmds.c
+	${ENGINE_ROOT}/prvm_edict.c 
+	${ENGINE_ROOT}/prvm_exec.c 
+	${ENGINE_ROOT}/r_explosion.c 
+	${ENGINE_ROOT}/r_lerpanim.c 
+	${ENGINE_ROOT}/r_lightning.c 
+	${ENGINE_ROOT}/r_modules.c 
+	${ENGINE_ROOT}/r_shadow.c 
+	${ENGINE_ROOT}/r_sky.c 
+	${ENGINE_ROOT}/r_sprites.c 
+	${ENGINE_ROOT}/sbar.c 
+	${ENGINE_ROOT}/snd_main.c 
+	${ENGINE_ROOT}/snd_mem.c 
+	${ENGINE_ROOT}/snd_mix.c 
+	${ENGINE_ROOT}/snd_ogg.c 
+	${ENGINE_ROOT}/snd_sdl.c 
+	${ENGINE_ROOT}/snd_wav.c 
+	${ENGINE_ROOT}/sv_demo.c 
+	${ENGINE_ROOT}/sv_main.c 
+	${ENGINE_ROOT}/sv_move.c 
+	${ENGINE_ROOT}/sv_phys.c 
+	${ENGINE_ROOT}/sv_user.c 
+	${ENGINE_ROOT}/svbsp.c 
+	${ENGINE_ROOT}/svvm_cmds.c 
+	${ENGINE_ROOT}/sys_sdl.c 
+	${ENGINE_ROOT}/sys_shared.c 
+	${ENGINE_ROOT}/thread_sdl.c 
+	${ENGINE_ROOT}/utf8lib.c 
+	${ENGINE_ROOT}/vid_sdl.c 
+	${ENGINE_ROOT}/vid_shared.c 
+	${ENGINE_ROOT}/view.c 
+	${ENGINE_ROOT}/wad.c 
+	${ENGINE_ROOT}/world.c
+	${ENGINE_ROOT}/zone.c
+)
+
+if (APPLE)
+	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -MMD -fPIC -msse -Wall -Wold-style-definition -Wstrict-prototypes -Wsign-compare -Wdeclaration-after-statement -Wmissing-prototypes -fno-strict-aliasing -fno-math-errno -ffinite-math-only -fno-trapping-math")
+	
+	add_definitions(-DLINK_TO_ZLIB -D_FILE_OFFSET_BITS=64 -D__KERNEL_STRICT_NAMES -DCONFIG_MENU -DCONFIG_VIDEO_CAPTURE -DUSEODE -DSVNREVISION=666 -DBUILDTYPE=release)
+
+	target_sources(darkplaces-sdl
+		PUBLIC
+		${ENGINE_ROOT}/SDLMain.m
+	)
+	target_link_libraries(darkplaces-sdl m z dl)
+else()
+	message(FATAL_ERROR "Unsupported platform.")
+endif()
+
