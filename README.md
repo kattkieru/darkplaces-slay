@@ -1,7 +1,9 @@
 # slay
 Darkplaces-based Quake 1 engine and tools
 
-Only Mac supported right now; Windows to follow.  Requires a recent version of Xcode.  Tested currently on 10.15.  Currently the drawing is incorrect.
+Mac and Windows supported right now.
+* Mac requires a recent version of Xcode.  Tested currently on 10.15.  Currently the drawing is incorrect.
+* Windows has been tested with MSVC 2017.
 
 To build:
 
