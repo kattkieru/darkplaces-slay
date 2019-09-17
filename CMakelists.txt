@@ -26,4 +26,9 @@ add_subdirectory(zlib)
 add_subdirectory(sdl2)
 add_subdirectory(engine)
 
+## this fixes linking in debug builds -- the 'd' postfix
+## is largely irrelevant these days
+set_target_properties(SDL2main    PROPERTIES DEBUG_POSTFIX "")
+set_target_properties(SDL2-static PROPERTIES DEBUG_POSTFIX "")
+
 add_dependencies(darkplaces-sdl SDL2-static SDL2main zlibstatic)

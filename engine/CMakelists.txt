@@ -133,9 +133,15 @@ if (MINGW OR MSVC)
 endif(MINGW OR MSVC)
 
 if (MSVC)
-	## do the thing with the thing, Zhu-li
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MT /Zi /Oi /fp:fast /O2")
+
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+	
 	target_link_directories(darkplaces-sdl PUBLIC "${CMAKE_BINARY_DIR}/sdl2/${CMAKE_BUILD_TYPE}")
 	target_link_libraries(darkplaces-sdl SDL2main)
 
+	# if( MSVC_VERSION GREATER 1800 )
+	# 	target_link_libraries(darkplaces-sdl legacy_stdio_definitions.lib)
+	# endif()
 endif(MSVC)
 
