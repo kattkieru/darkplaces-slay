@@ -10,11 +10,20 @@ endif()
 
 project(darkplaces-sdl)
 
-## for SDL2
+## for SDL2 -- override defaults
 set(SDL_SHARED_ENABLED_BY_DEFAULT OFF)
 set(SDL_STATIC_ENABLED_BY_DEFAULT ON)
-set(SDL_STATIC_PIC ON)
+option(SDL_STATIC_PIC "" ON)
 
+if (MINGW OR MSVC)
+	## for windows I don't want to go vulkan for now but
+	## the SDL + mingw combo seems to pick it as the default
+	option(VIDEO_VULKAN "" OFF)
+	option(VIDEO_OPENGL "" ON)
+endif(MINGW OR MSVC)
+
+add_subdirectory(zlib)
 add_subdirectory(sdl2)
 add_subdirectory(engine)
 
+add_dependencies(darkplaces-sdl SDL2-static SDL2main zlibstatic)

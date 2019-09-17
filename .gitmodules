@@ -1,3 +1,6 @@
 [submodule "sdl2"]
 	path = sdl2
 	url = https://github.com/kattkieru/SDL2.git
+[submodule "zlib"]
+	path = zlib
+	url = https://github.com/kattkieru/zlib.git

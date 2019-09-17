@@ -1,5 +1,5 @@
-add_executable(darkplaces-sdl)
-target_link_libraries(darkplaces-sdl SDL2-static)
+add_executable(darkplaces-sdl "")
+target_link_libraries(darkplaces-sdl SDL2-static zlibstatic )
 
 set(ENGINE_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -99,17 +99,43 @@ target_sources(darkplaces-sdl
 	${ENGINE_ROOT}/zone.c
 )
 
-if (APPLE)
-	set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -MMD -fPIC -msse -Wall -Wold-style-definition -Wstrict-prototypes -Wsign-compare -Wdeclaration-after-statement -Wmissing-prototypes -fno-strict-aliasing -fno-math-errno -ffinite-math-only -fno-trapping-math")
-	
-	add_definitions(-DLINK_TO_ZLIB -D_FILE_OFFSET_BITS=64 -D__KERNEL_STRICT_NAMES -DCONFIG_MENU -DCONFIG_VIDEO_CAPTURE -DUSEODE -DSVNREVISION=666 -DBUILDTYPE=release)
+add_definitions(
+	-DLINK_TO_ZLIB
+	-D_FILE_OFFSET_BITS=64
+	-D__KERNEL_STRICT_NAMES
+	-DCONFIG_MENU
+	-DCONFIG_VIDEO_CAPTURE
+	-DUSEODE
+	-DSVNREVISION=666
+	-DBUILDTYPE=release
+)
 
+target_include_directories(darkplaces-sdl PUBLIC "${PROJECT_SOURCE_DIR}/zlib" "${CMAKE_BINARY_DIR}/zlib")
+
+if (APPLE OR MINGW)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -MMD -fPIC -msse -Wall -Wold-style-definition -Wstrict-prototypes -Wsign-compare -Wdeclaration-after-statement -Wmissing-prototypes -fno-strict-aliasing -fno-math-errno -ffinite-math-only -fno-trapping-math")
+	
+	target_link_libraries(darkplaces-sdl m z dl)
+endif(APPLE OR MINGW)
+
+if (APPLE)
 	target_sources(darkplaces-sdl
 		PUBLIC
 		${ENGINE_ROOT}/SDLMain.m
 	)
-	target_link_libraries(darkplaces-sdl m z dl)
-else()
-	message(FATAL_ERROR "Unsupported platform.")
-endif()
+endif(APPLE)
+
+if (MINGW OR MSVC)
+	# target_sources(darkplaces-sdl
+	# 	PUBLIC
+	# 	${ENGINE_ROOT}/sys_win.c
+	# )
+endif(MINGW OR MSVC)
+
+if (MSVC)
+	## do the thing with the thing, Zhu-li
+	target_link_directories(darkplaces-sdl PUBLIC "${CMAKE_BINARY_DIR}/sdl2/${CMAKE_BUILD_TYPE}")
+	target_link_libraries(darkplaces-sdl SDL2main)
+
+endif(MSVC)
 
